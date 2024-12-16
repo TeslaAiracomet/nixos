@@ -18,25 +18,27 @@ in {
     nvidiaPersistenced = true;
     open = false;
     nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.beta;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
-
-  # boot.kernelParams = [ "module_blacklist=i915" ];
-
+  
+  boot.kernelParams = [ "module_blacklist=i915" ];
+  boot.initrd.kernelModules = [
+    "amdgpu"
+  ];
+  
   hardware.nvidia.prime = {
     sync.enable = true;
     offload.enable = false;
-    intelBusId = "PCI:0:2:0";
-    nvidiaBusId = "PCI:1:0:0";
+    amdgpuBusId = "PCI:197:0:0";
+    nvidiaBusId = "PCI:196:0:0";
   };
 
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
     extraPackages = with pkgs; [
+      mesa
       amdvlk
-      intel-media-driver # LIBVA_DRIVER_NAME=iHD
-      vaapiIntel # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium)
       vaapiVdpau
       libvdpau-va-gl
       vulkan-validation-layers

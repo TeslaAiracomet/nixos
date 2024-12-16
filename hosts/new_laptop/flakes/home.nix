@@ -74,11 +74,14 @@
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
-  #wayland.windowManager.hyprland = {
-  #  enable = true;
-
-  #  settings = {
-  #    env = "AQ_DRM_DEVICES,/dev/dri/card1";
-  #  };
-  #};
+  wayland.windowManager.hyprland = {
+    enable = true;
+    settings = {
+      env = [
+        "WLR_DRM_DEVICES,/dev/dri/card1"
+        "WLR_NO_HARDWARE_CURSORS=1"
+	"WLR_RENDERER_ALLOW_SOFTWARE=1"
+      ];
+    };
+  };
 }
