@@ -57,7 +57,7 @@
   
   # Enable the Gnome DE
 
- environment.gnome.excludePackages = (with pkgs; [
+environment.gnome.excludePackages = (with pkgs; [
     gnome-photos
     gnome-tour
     gedit
@@ -77,10 +77,10 @@
 
 
   # Configure keymap in X11
-  # services.xserver.xkb = {
-  #  layout = "us";
-  #  variant = "";
-  #};
+   services.xserver.xkb = {
+    layout = "us";
+    variant = "";
+  };
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -143,6 +143,15 @@
     home-manager
     kitty
     git
+    rofi-wayland
+    swww
+    waybar
+    logseq
+    hyprlock
+    brightnessctl
+    pamixer
+    hypridle
+    pavucontrol
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -173,10 +182,10 @@
   system.stateVersion = "24.11"; # Did you read the comment?
   programs.hyprland = {
     enable = true;
-    package = inputs.hyprland.packages."${pkgs.system}".hyprland;
+#    package = inputs.hyprland.packages."${pkgs.system}".hyprland;
   };
-  programs.sway = {
-    enable = true;
-    wrapperFeatures.gtk = true;
-  };
+#programs.sway = {
+#    enable = true;
+#    wrapperFeatures.gtk = true;
+#  };
 }

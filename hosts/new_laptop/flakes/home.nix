@@ -78,7 +78,7 @@
     enable = true;
     settings = {
       env = [
-        "WLR_DRM_DEVICES,/dev/dri/card1"
+        "AQ_NO_MODIFIERS,1"
         "WLR_NO_HARDWARE_CURSORS=1"
 	"WLR_RENDERER_ALLOW_SOFTWARE=1"
       ];

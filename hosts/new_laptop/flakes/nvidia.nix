@@ -21,7 +21,7 @@ in {
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
   
-  boot.kernelParams = [ "module_blacklist=i915" ];
+  boot.kernelParams = [ "module_blacklist=i915" "module_blacklist=nouveau"];
   boot.initrd.kernelModules = [
     "amdgpu"
   ];
