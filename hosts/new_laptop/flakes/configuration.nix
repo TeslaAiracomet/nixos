@@ -7,10 +7,7 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-#      ./hardware-configuration.nix
-#      ./modules/nvidia.nix
-#      ./modules/audio.nix
-#      ./modules/fonts.nix
+      ./hardware-configuration.nix
       inputs.home-manager.nixosModules.default
     ];
 
@@ -85,15 +82,8 @@
     };
   };
 
-  # Install firefox.
-  programs.firefox.enable = true;
-
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-
 
   nixpkgs.config.permittedInsecurePackages = [
     "electron-27.3.11"
@@ -103,14 +93,12 @@
     neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
     pciutils
-    logseq
     home-manager
     kitty
     git
     rofi-wayland
     swww
     waybar
-    logseq
     hyprlock
     brightnessctl
     pamixer
@@ -120,6 +108,9 @@
     zed-editor
     nextcloud-client
     snakemake
+    tree
+    logseq
+    firefox
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
