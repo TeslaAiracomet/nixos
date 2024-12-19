@@ -7,15 +7,17 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ./nvidia.nix
+#      ./hardware-configuration.nix
+#      ./modules/nvidia.nix
+#      ./modules/audio.nix
+#      ./modules/fonts.nix
       inputs.home-manager.nixosModules.default
     ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  
+
   boot.kernelPackages = pkgs.linuxPackages_6_12;
 
   networking.hostName = "nixos"; # Define your hostname.
@@ -52,29 +54,7 @@
     enable = true;
     videoDrivers = ["amdgpu"];
     displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
   };
-  
-  # Enable the Gnome DE
-
-environment.gnome.excludePackages = (with pkgs; [
-    gnome-photos
-    gnome-tour
-    gedit
-    cheese
-    gnome-music
-    gnome-terminal
-    epiphany
-    geary
-    evince
-    gnome-characters
-    totem
-    tali
-    iagno
-    hitori
-    atomix
-  ]);
-
 
   # Configure keymap in X11
    services.xserver.xkb = {
@@ -84,22 +64,6 @@ environment.gnome.excludePackages = (with pkgs; [
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
-
-  # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
-  };
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
@@ -113,7 +77,7 @@ environment.gnome.excludePackages = (with pkgs; [
     #  thunderbird
     ];
   };
-  
+
   home-manager = {
     extraSpecialArgs = {inherit inputs;};
     users = {
@@ -130,11 +94,11 @@ environment.gnome.excludePackages = (with pkgs; [
   # List packages installed in system profile. To search, run:
   # $ nix search wget
 
-  
+
   nixpkgs.config.permittedInsecurePackages = [
     "electron-27.3.11"
   ];
-  
+
   environment.systemPackages = with pkgs; [
     neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
@@ -152,6 +116,10 @@ environment.gnome.excludePackages = (with pkgs; [
     pamixer
     hypridle
     pavucontrol
+    bluez
+    zed-editor
+    nextcloud-client
+    snakemake
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -180,12 +148,10 @@ environment.gnome.excludePackages = (with pkgs; [
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.11"; # Did you read the comment?
+
+  # Enable hyprland
   programs.hyprland = {
     enable = true;
 #    package = inputs.hyprland.packages."${pkgs.system}".hyprland;
   };
-#programs.sway = {
-#    enable = true;
-#    wrapperFeatures.gtk = true;
-#  };
 }

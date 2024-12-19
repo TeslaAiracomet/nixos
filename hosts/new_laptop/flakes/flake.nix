@@ -17,7 +17,7 @@
     };
   };
 
-  outputs = { nixpkgs, home-manager, ... } @ inputs: 
+  outputs = { nixpkgs, home-manager, ... } @ inputs:
   let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
@@ -26,14 +26,20 @@
     homeConfiguration."tesla" = home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
 
-      modules = [ ./home.nix ];
+      modules = [
+        ./home.nix
+      ];
     };
 
     nixosConfigurations."nixos" = nixpkgs.lib.nixosSystem {
       specialArgs = {inherit inputs system; };
       modules = [
         ./configuration.nix
-	inputs.home-manager.nixosModules.default
+        ./modules/nvidia.nix
+        ./modules/fonts.nix
+        ./modules/audio.nix
+
+        inputs.home-manager.nixosModules.default
       ];
     };
   };
