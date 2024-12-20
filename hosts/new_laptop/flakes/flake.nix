@@ -17,15 +17,14 @@
     };
   };
 
-  outputs = { nixpkgs, home-manager, ... } @ inputs:
+  outputs = { self, nixpkgs, home-manager, ... } @ inputs:
   let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
   in
   {
-    homeConfiguration."tesla" = home-manager.lib.homeManagerConfiguration {
+    homeConfigurations."tesla" = home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
-
       modules = [
         ./home.nix
       ];

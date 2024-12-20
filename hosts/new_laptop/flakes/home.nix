@@ -1,5 +1,12 @@
 { config, pkgs, inputs, ... }:
-
+let 
+  startupScript = pkgs.pkgs.writeShellScriptBin "start" ''
+    ${pkgs.waybar}/bin/waybar &
+    ${pkgs.swww}/bin/swww init &
+    ${pkgs.hypridle}/bin/hypridle &
+    ${pkgs.dunst}/bin/dunst &
+  '';
+in
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -203,15 +210,25 @@
     };
 
   wayland.windowManager.hyprland = {
-    enable = true;
-    package = inputs.hyprland.packages."${pkgs.system}".hyprland;
+    enable = false;
     xwayland.enable = true;
     settings = {
+      monitor = [
+        "eDP-1,preferred,auto,1.5"
+	",preferred,auto,1"
+      ];
       env = [
         "AQ_NO_MODIFIERS,1"
         "WLR_NO_HARDWARE_CURSORS=1"
         "WLR_RENDERER_ALLOW_SOFTWARE=1"
+	"AQ_DRM_DEVICES,/dev/dri/card1"
       ];
+      bind = [
+        ", PRINT, exec, hyprshot -m window"
+	"SUPER, PRINT, exec, hyprshot -m output"
+	"$shiftMod, PRINT, exec, hyprshot -m region"
+      ];
+      exec-once = ''${startupScript}/bin/start'';
     };
   };
 }
