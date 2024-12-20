@@ -16,6 +16,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   boot.kernelPackages = pkgs.linuxPackages_6_12;
+  boot.supportedFilesystems = [ "ntfs" ];
 
   networking.hostName = "nixos"; # Define your hostname.
 
@@ -51,6 +52,7 @@
     enable = true;
     videoDrivers = ["amdgpu"];
     displayManager.gdm.enable = true;
+    displayManager.gdm.wayland = true;
   };
 
   # Configure keymap in X11
@@ -111,6 +113,7 @@
     tree
     logseq
     firefox
+    hyprshot
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -143,6 +146,7 @@
   # Enable hyprland
   programs.hyprland = {
     enable = true;
-#    package = inputs.hyprland.packages."${pkgs.system}".hyprland;
+    package = inputs.hyprland.packages."${pkgs.system}".hyprland;
+    xwayland.enable = true;
   };
 }

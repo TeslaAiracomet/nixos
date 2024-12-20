@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   # Home Manager needs a bit of information about you and the paths it should
@@ -204,6 +204,8 @@
 
   wayland.windowManager.hyprland = {
     enable = true;
+    package = inputs.hyprland.packages."${pkgs.system}".hyprland;
+    xwayland.enable = true;
     settings = {
       env = [
         "AQ_NO_MODIFIERS,1"
