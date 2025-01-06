@@ -2,6 +2,7 @@
   description = "A very basic flake";
 
   inputs = {
+
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
 
     home-manager = {
@@ -15,9 +16,12 @@
       url = "github:hyprwm/hyprland-plugins";
       inputs.hyprland.follows = "hyprland";
     };
+
+    nvf.url = "github:notashelf/nvf";
+
   };
 
-  outputs = { self, nixpkgs, home-manager, ... } @ inputs:
+  outputs = { self, nixpkgs, home-manager, nvf, ... } @ inputs:
   let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
@@ -30,6 +34,12 @@
       ];
     };
 
+    packages.system.default = 
+      (nvf.lib.neovimConfiguration {
+        inherit pkgs;
+	modules = [./nvf-configuration.nix];
+      }).neovim;
+
     nixosConfigurations."nixos" = nixpkgs.lib.nixosSystem {
       specialArgs = {inherit inputs system; };
       modules = [
@@ -37,7 +47,7 @@
         ./modules/nvidia.nix
         ./modules/fonts.nix
         ./modules/audio.nix
-
+	nvf.nixosModules.default
         inputs.home-manager.nixosModules.default
       ];
     };

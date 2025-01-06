@@ -15,10 +15,8 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  boot.kernelPackages = pkgs.linuxPackages_6_12;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.supportedFilesystems = [ "ntfs" ];
-
-  networking.hostName = "nixos"; # Define your hostname.
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
@@ -27,7 +25,20 @@
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Enable networking
-  networking.networkmanager.enable = true;
+  networking = {
+    networkmanager.enable = true;
+    hostName = "peaktop";
+    useDHCP = false;
+    interfaces.wlp195s0 = {
+      useDHCP = true;
+      ipv4.addresses = [ {
+        address = "192.168.1.69";
+        prefixLength = 24;
+      } ];
+    };
+    nameservers = ["1.1.1.1" "1.0.0.1"];
+    dhcpcd.extraConfig = "nohook resolv.conf";
+  };
 
   # Set your time zone.
   time.timeZone = "America/New_York";
@@ -50,7 +61,7 @@
   # Enable the X11 windowing system.
   services.xserver = {
     enable = true;
-    videoDrivers = ["amdgpu"];
+    videoDrivers = ["amdgpu" "nvidia"];
     displayManager.gdm.enable = true;
     displayManager.gdm.wayland = true;
   };
@@ -114,7 +125,32 @@
     logseq
     firefox
     hyprshot
+    vlc
+    tlp
+    cloudflare-warp
   ];
+
+  systemd.targets.multi-user.wants = ["warp-svc.service"];
+
+  services.tlp = {
+    enable = true;
+    settings = {
+      CPU_SCALING_GOVERNOR_ON_AC = "performance";
+      CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+
+      CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
+      CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
+
+      CPU_MIN_PERF_ON_AC = 0;
+      CPU_MAX_PERF_ON_AC = 100;
+      CPU_MIN_PERF_ON_BAT = 0;
+      CPU_MAX_PERF_ON_BAT = 20;
+
+      #Optional helps save long term battery health
+      START_CHARGE_THRESH_BAT0 = 40; # 40 and bellow it starts to charge
+      STOP_CHARGE_THRESH_BAT0 = 80; # 80 and above it stops charging
+    };
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -127,7 +163,7 @@
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  services.openssh.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];

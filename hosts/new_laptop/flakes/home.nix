@@ -210,7 +210,7 @@ in
     };
 
   wayland.windowManager.hyprland = {
-    enable = false;
+    enable = true;
     xwayland.enable = true;
     settings = {
       monitor = [
@@ -219,8 +219,8 @@ in
       ];
       env = [
         "AQ_NO_MODIFIERS,1"
-        "WLR_NO_HARDWARE_CURSORS=1"
-        "WLR_RENDERER_ALLOW_SOFTWARE=1"
+        "WLR_NO_HARDWARE_CURSORS,1"
+        "WLR_RENDERER_ALLOW_SOFTWARE,1"
 	"AQ_DRM_DEVICES,/dev/dri/card1"
       ];
       bind = [
