@@ -27,28 +27,32 @@
     pkgs = nixpkgs.legacyPackages.${system};
   in
   {
-    homeConfigurations."tesla" = home-manager.lib.homeManagerConfiguration {
-      inherit pkgs;
-      modules = [
-        ./home.nix
-      ];
-    };
+#    homeConfigurations."tesla" = home-manager.lib.homeManagerConfiguration {
+#      inherit pkgs;
+#      modules = [
+#        ./home.nix
+#      ];
+#    };
 
-    packages.system.default = 
-      (nvf.lib.neovimConfiguration {
-        inherit pkgs;
-	modules = [./nvf-configuration.nix];
-      }).neovim;
+ #    packages.system.default =
+ #      (nvf.lib.neovimConfiguration {
+ #        inherit pkgs;
+	# modules = [
+	#   ./modules/nvf-configuration.nix
+	# ];
+ #      })
+ #      .neovim;
 
-    nixosConfigurations."nixos" = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       specialArgs = {inherit inputs system; };
       modules = [
         ./configuration.nix
         ./modules/nvidia.nix
         ./modules/fonts.nix
         ./modules/audio.nix
+	./modules/iiorient.nix
 	nvf.nixosModules.default
-        inputs.home-manager.nixosModules.default
+        #inputs.home-manager.nixosModules.default
       ];
     };
   };

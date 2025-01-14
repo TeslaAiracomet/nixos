@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, inputs, lib, ... }:
 
 {
   imports =
@@ -27,17 +27,17 @@
   # Enable networking
   networking = {
     networkmanager.enable = true;
-    hostName = "peaktop";
-    useDHCP = false;
-    interfaces.wlp195s0 = {
-      useDHCP = true;
-      ipv4.addresses = [ {
-        address = "192.168.1.69";
-        prefixLength = 24;
-      } ];
-    };
-    nameservers = ["1.1.1.1" "1.0.0.1"];
-    dhcpcd.extraConfig = "nohook resolv.conf";
+    hostName = "nixos";
+#    useDHCP = false;
+#    interfaces.wlp195s0 = {
+#      useDHCP = true;
+#      ipv4.addresses = [ {
+#        address = "192.168.1.69";
+#        prefixLength = 24;
+#      } ];
+#    };
+#    nameservers = ["1.1.1.1" "1.0.0.1"];
+#    dhcpcd.extraConfig = "nohook resolv.conf";
   };
 
   # Set your time zone.
@@ -127,7 +127,8 @@
     hyprshot
     vlc
     tlp
-    cloudflare-warp
+    deluge
+    libreoffice
   ];
 
   systemd.targets.multi-user.wants = ["warp-svc.service"];
@@ -178,6 +179,14 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.11"; # Did you read the comment?
+
+  services = {
+    asusd.enable = lib.mkDefault true;
+    udev.extraHwdb = ''
+      evdev:name:*:dmi:bvn*:bvr*:bd*:svnASUS*:pn*:*
+       KEYBOARD_KEY_ff31007c=f20    # fixes mic mute button
+    '';
+  };
 
   # Enable hyprland
   programs.hyprland = {
