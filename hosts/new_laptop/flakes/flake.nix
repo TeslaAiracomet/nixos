@@ -50,6 +50,7 @@
         ./modules/nvidia.nix
         ./modules/fonts.nix
         ./modules/audio.nix
+        ./modules/tlp.nix
         nvf.nixosModules.default
         #inputs.home-manager.nixosModules.default
       ];
