@@ -50,8 +50,7 @@
         ./modules/nvidia.nix
         ./modules/fonts.nix
         ./modules/audio.nix
-	./modules/iiorient.nix
-	nvf.nixosModules.default
+        nvf.nixosModules.default
         #inputs.home-manager.nixosModules.default
       ];
     };
