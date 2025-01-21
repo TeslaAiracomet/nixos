@@ -1,5 +1,5 @@
 { config, pkgs, inputs, ... }:
-let 
+let
   startupScript = pkgs.pkgs.writeShellScriptBin "start" ''
     ${pkgs.waybar}/bin/waybar &
     ${pkgs.swww}/bin/swww init &
@@ -209,26 +209,26 @@ in
 
     };
 
-  wayland.windowManager.hyprland = {
-    enable = true;
-    xwayland.enable = true;
-    settings = {
-      monitor = [
-        "eDP-1,preferred,auto,1.5"
-	",preferred,auto,1"
-      ];
-      env = [
-        "AQ_NO_MODIFIERS,1"
-        "WLR_NO_HARDWARE_CURSORS,1"
-        "WLR_RENDERER_ALLOW_SOFTWARE,1"
-	"AQ_DRM_DEVICES,/dev/dri/card1"
-      ];
-      bind = [
-        ", PRINT, exec, hyprshot -m window"
-	"SUPER, PRINT, exec, hyprshot -m output"
-	"$shiftMod, PRINT, exec, hyprshot -m region"
-      ];
-      exec-once = ''${startupScript}/bin/start'';
-    };
-  };
+ #  wayland.windowManager.hyprland = {
+ #    enable = true;
+ #    xwayland.enable = true;
+ #    settings = {
+ #      monitor = [
+ #        "eDP-1,preferred,auto,1.5"
+	# ",preferred,auto,1"
+ #      ];
+ #      env = [
+ #        "AQ_NO_MODIFIERS,1"
+ #        "WLR_NO_HARDWARE_CURSORS,1"
+ #        "WLR_RENDERER_ALLOW_SOFTWARE,1"
+	# "AQ_DRM_DEVICES,/dev/dri/card1"
+ #      ];
+ #      bind = [
+ #        ", PRINT, exec, hyprshot -m window"
+	# "SUPER, PRINT, exec, hyprshot -m output"
+	# "$shiftMod, PRINT, exec, hyprshot -m region"
+ #      ];
+ #      exec-once = ''${startupScript}/bin/start'';
+ #    };
+ #  };
 }

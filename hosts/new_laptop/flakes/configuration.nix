@@ -129,6 +129,8 @@
     tlp
     deluge
     brave
+    acpid
+    asusctl
   ];
 
   systemd.targets.multi-user.wants = ["warp-svc.service"];
@@ -166,6 +168,11 @@
   #     evdev:name:*:dmi:bvn*:bvr*:bd*:svnASUS*:pn*:*
   #      KEYBOARD_KEY_ff31007c=f20    # fixes mic mute button
   #   '';
+  # };
+
+  # Enable nvf
+  # programs.nvf = {
+  #   enable = true;
   # };
 
   # Enable hyprland

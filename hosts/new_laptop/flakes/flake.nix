@@ -1,7 +1,8 @@
 {
-  description = "A very basic flake";
+  description = "Peaktop config";
 
-  inputs = {
+  inputs =
+  {
 
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
 
@@ -17,31 +18,32 @@
       inputs.hyprland.follows = "hyprland";
     };
 
-    nvf.url = "github:notashelf/nvf";
-
+    nvf = {
+      url = "github:notashelf/nvf";
+    };
   };
 
   outputs = { self, nixpkgs, home-manager, nvf, ... } @ inputs:
+
   let
+
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
+
+    customNeovim = nvf.lib.neovimConfiguration {
+      inherit pkgs;
+      modules = [./modules/nvf-configuration.nix];
+    };
   in
   {
-#    homeConfigurations."tesla" = home-manager.lib.homeManagerConfiguration {
-#      inherit pkgs;
-#      modules = [
-#        ./home.nix
-#      ];
-#    };
+    packages.${system}.my-neovim = customNeovim.neovim;
 
- #    packages.system.default =
- #      (nvf.lib.neovimConfiguration {
- #        inherit pkgs;
-	# modules = [
-	#   ./modules/nvf-configuration.nix
-	# ];
- #      })
- #      .neovim;
+   homeConfigurations."tesla" = home-manager.lib.homeManagerConfiguration {
+     inherit pkgs;
+     modules = [
+       ./home.nix
+     ];
+   };
 
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       specialArgs = {inherit inputs system; };
@@ -51,8 +53,8 @@
         ./modules/fonts.nix
         ./modules/audio.nix
         ./modules/tlp.nix
-        nvf.nixosModules.default
-        #inputs.home-manager.nixosModules.default
+        {environment.systemPackages = [customNeovim.neovim];}
+        #inputs.home-manager.nixosModule;s.default
       ];
     };
   };

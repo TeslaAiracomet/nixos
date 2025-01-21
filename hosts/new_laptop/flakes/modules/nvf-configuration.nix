@@ -4,8 +4,8 @@
   vim = {
     theme = {
       enable = true;
-      name = "gruvbox";
-      style = "dark";
+      name = "tokyonight";
+      style = "night";
     };
 
     statusline.lualine.enable = true;
@@ -19,7 +19,6 @@
       nix.enable = true;
       python.enable = true;
       rust.enable = true;
-      cpp.enable = true;
     };
   };
 }
