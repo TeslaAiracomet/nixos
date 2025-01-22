@@ -129,8 +129,8 @@
     tlp
     deluge
     brave
-    acpid
     asusctl
+    acpi
   ];
 
   systemd.targets.multi-user.wants = ["warp-svc.service"];
