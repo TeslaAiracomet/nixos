@@ -21,6 +21,10 @@ in
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
   home.stateVersion = "24.05"; # Please read the comment before changing.
+  
+  imports = [
+    ./modules/hyprland.nix
+  ];
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
@@ -209,26 +213,4 @@ in
 
     };
 
- #  wayland.windowManager.hyprland = {
- #    enable = true;
- #    xwayland.enable = true;
- #    settings = {
- #      monitor = [
- #        "eDP-1,preferred,auto,1.5"
-	# ",preferred,auto,1"
- #      ];
- #      env = [
- #        "AQ_NO_MODIFIERS,1"
- #        "WLR_NO_HARDWARE_CURSORS,1"
- #        "WLR_RENDERER_ALLOW_SOFTWARE,1"
-	# "AQ_DRM_DEVICES,/dev/dri/card1"
- #      ];
- #      bind = [
- #        ", PRINT, exec, hyprshot -m window"
-	# "SUPER, PRINT, exec, hyprshot -m output"
-	# "$shiftMod, PRINT, exec, hyprshot -m region"
- #      ];
- #      exec-once = ''${startupScript}/bin/start'';
- #    };
- #  };
 }

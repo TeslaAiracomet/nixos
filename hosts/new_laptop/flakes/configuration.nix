@@ -129,8 +129,8 @@
     tlp
     deluge
     brave
-    asusctl
-    acpi
+    acpid
+    wl-clipboard
   ];
 
   systemd.targets.multi-user.wants = ["warp-svc.service"];
@@ -147,6 +147,14 @@
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
+
+  #  #testing asusctl
+  #  services = {
+  #    asusd = {
+  #      enable = true;
+  #      enableUserService = true;
+  #    };
+  #  };
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
