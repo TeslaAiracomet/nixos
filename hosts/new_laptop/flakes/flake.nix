@@ -53,8 +53,9 @@
         ./modules/fonts.nix
         ./modules/audio.nix
         ./modules/tlp.nix
+        ./modules/wireguard.nix
+        inputs.home-manager.nixosModules.default
         {environment.systemPackages = [customNeovim.neovim];}
-        #inputs.home-manager.nixosModule;s.default
       ];
     };
   };

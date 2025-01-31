@@ -8,7 +8,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      inputs.home-manager.nixosModules.home-manager
+      inputs.home-manager.nixosModules.default
     ];
 
   # Bootloader.
@@ -131,6 +131,8 @@
     brave
     acpid
     wl-clipboard
+    xournalpp
+    wireguard-tools
   ];
 
   systemd.targets.multi-user.wants = ["warp-svc.service"];
