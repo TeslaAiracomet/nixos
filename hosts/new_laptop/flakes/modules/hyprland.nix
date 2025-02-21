@@ -9,6 +9,7 @@
     enable = true;
     xwayland.enable = true;
     package = inputs.hyprland.packages."${pkgs.system}".hyprland;
+    withUWSM = true;
 
     settings = {
       "$terminal" = "kitty";
@@ -132,7 +133,7 @@
         "$mod, right, movefocus, r"
         "$mod, up, movefocus, u"
         "$mod, down, movefocus, d"
-        
+
         "$mod SHIFT, left, movewindow, l"
         "$mod SHIFT, right, movewindow, r"
         "$mod SHIFT, up, movewindow, u"
@@ -168,25 +169,26 @@
 
         "$mod, F, togglespecialworkspace, magic"
         "$mod SHIFT, F, movetoworkspace, special:magic"
-        
+
         #special workspace stuff
         ",XF86AudioMute, exec,  pamixer --sink 0 -t"
         ",XF86KbdLightOnOff, exec, brightnessctl -d asus::kbd_backlight set 0"
-        
+
         #screenshots
-        ",PRINT, exec, hyprshot -m window" 
+        ",PRINT, exec, hyprshot -m window"
         "$mod, PRINT, exec, hyprshot -m output"
         "$shiftMod, PRINT, exec, hyprshot -m region"
       ];
-    
+
       bindl = [
-        "$mod CTRL, up, exec hyprctl --batch 'keyword monitor eDP-1,preferred,0x0,1.5,transform,0 ; keyword device[elan9008:00-04f3:4359]:transform 0 ; keyword input:tablet:transform 0'"
-        "$mod CTRL, left, exec hyprctl --batch 'keyword monitor eDP-1,preferred,0x0,1.5,transform,1 ; keyword device[elan9008:00-04f3:4359]:transform 1 ; keyword input:tablet:transform 1'"
-        "$mod CTRL, down, exec hyprctl --batch 'keyword monitor eDP-1,preferred,0x0,1.5,transform,2 ; keyword device[elan9008:00-04f3:4359]:transform 2 ; keyword input:tablet:transform 2'"
-        "$mod CTRL, right, exec hyprctl --batch 'keyword monitor eDP-1,preferred,0x0,1.5,transform,3 ; keyword device[elan9008:00-04f3:4359]:transform 3 ; keyword input:tablet:transform 3'"
+        "$mod CTRL, up, exec, hyprctl keyword monitor eDP-1,preferred,0x0,1.5,transform,0 & hyprctl keyword device[elan9008:00-04f3:4359]:transform 0 & hyprctl keyword input:tablet:transform 0"
+        "$mod CTRL, left, exec, hyprctl --batch 'keyword monitor eDP-1,preferred,0x0,1.5,transform,1 ; keyword device[elan9008:00-04f3:4359]:transform 1 ; keyword input:tablet:transform 1'"
+        "$mod CTRL, down, exec, hyprctl --batch 'keyword monitor eDP-1,preferred,0x0,1.5,transform,2 ; keyword device[elan9008:00-04f3:4359]:transform 2 ; keyword input:tablet:transform 2'"
+        "$mod CTRL, right, exec, hyprctl --batch 'keyword monitor eDP-1,preferred,0x0,1.5,transform,3 ; keyword device[elan9008:00-04f3:4359]:transform 3 ; keyword input:tablet:transform 3'"
+
       ];
 
-      binde = [
+      bindel = [
         ",XF86AudioLowerVolume, exec, pamixer -d 10"
         ",XF86AudioRaiseVolume, exec, pamixer -i 10"
         ",XF86MonBrightnessDown, exec, brightnessctl s 1%-"
@@ -199,7 +201,6 @@
       ];
 
       env = [
-        "NIXOS_OZONE_WL_1"
         "QT_WAYLAND_DISABLE_WINDOWDECORATION,1"
         "QT_QPA_PLATFORM,wayland"
         "SDL_VIDEODRIVER,wayland"
@@ -212,8 +213,9 @@
       ];
 
       exec-once = [
-        "swww img ~/Pictures/wp.jpg"
+        "swww-daemon & swww img /home/tesla/Pictures/wp.jpg"
         "iio-hyprland --monitor=eDP-1"
+        "hypridle"
       ];
 
       windowrulev2 = [

@@ -2,9 +2,6 @@
 let
   startupScript = pkgs.pkgs.writeShellScriptBin "start" ''
     ${pkgs.waybar}/bin/waybar &
-    ${pkgs.swww}/bin/swww init &
-    ${pkgs.swww}/bin/swww img ~/Pictures/wp.jpg &
-    ${pkgs.hypridle}/bin/hypridle &
     ${pkgs.dunst}/bin/dunst &
   '';
 in
@@ -22,7 +19,7 @@ in
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
   home.stateVersion = "24.05"; # Please read the comment before changing.
-  
+
     #imports = [
     #  ./modules/hyprland.nix {inherit inputs;}
     #];
@@ -335,7 +332,7 @@ in
         "$mod, right, movefocus, r"
         "$mod, up, movefocus, u"
         "$mod, down, movefocus, d"
-        
+
         "$mod SHIFT, left, movewindow, l"
         "$mod SHIFT, right, movewindow, r"
         "$mod SHIFT, up, movewindow, u"
@@ -371,22 +368,23 @@ in
 
         "$mod, F, togglespecialworkspace, magic"
         "$mod SHIFT, F, movetoworkspace, special:magic"
-        
+
         #special workspace stuff
         ",XF86AudioMute, exec,  pamixer --sink 0 -t"
         ",XF86KbdLightOnOff, exec, brightnessctl -d asus::kbd_backlight set 0"
-        
+
         #screenshots
-        ",PRINT, exec, hyprshot -m window" 
+        ",PRINT, exec, hyprshot -m window"
         "$mod, PRINT, exec, hyprshot -m output"
         "$shiftMod, PRINT, exec, hyprshot -m region"
       ];
-    
+
       bindl = [
-        #        "$mod CTRL, up, hyprctl monitor ,preferred,0x0,1.5,transform,0 ; keyword device[elan9008:00-04f3:4359]:transform 0 ; keyword input:tablet:transform 0\""
-        # "$mod CTRL, left, exec hyprctl --batch 'keyword monitor ,preferred,0x0,1.5,transform,1 ; keyword device[elan9008:00-04f3:4359]:transform 1 ; keyword input:tablet:transform 1'"
-        #"$mod CTRL, down, exec hyprctl --batch 'keyword monitor ,preferred,0x0,1.5,transform,2 ; keyword device[elan9008:00-04f3:4359]:transform 2 ; keyword input:tablet:transform 2'"
-        #"$mod CTRL, right, exec hyprctl --batch 'keyword monitor ,preferred,0x0,1.5,transform,3 ; keyword device[elan9008:00-04f3:4359]:transform 3 ; keyword input:tablet:transform 3'"
+        ", switch:Lid Switch, exec, systemctl suspend "
+        "$mod CTRL, up, exec, hyprctl --batch 'keyword monitor eDP-1,preferred,0x0,1.5,transform,0 ; keyword device[elan9008:00-04f3:4359]:transform 0 ; keyword input:tablet:transform 0'"
+        "$mod CTRL, left, exec, hyprctl --batch 'keyword monitor eDP-1,preferred,0x0,1.5,transform,1 ; keyword device[elan9008:00-04f3:4359]:transform 1 ; keyword input:tablet:transform 1'"
+        "$mod CTRL, down, exec, hyprctl --batch 'keyword monitor eDP-1,preferred,0x0,1.5,transform,2 ; keyword device[elan9008:00-04f3:4359]:transform 2 ; keyword input:tablet:transform 2'"
+        "$mod CTRL, right, exec, hyprctl --batch 'keyword monitor eDP-1,preferred,0x0,1.5,transform,3 ; keyword device[elan9008:00-04f3:4359]:transform 3 ; keyword input:tablet:transform 3'"
       ];
 
       binde = [
@@ -425,5 +423,5 @@ in
     systemd = {
       enable = true;
     };
-  }; 
+  };
 }

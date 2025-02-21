@@ -133,6 +133,10 @@
     wl-clipboard
     xournalpp
     wireguard-tools
+    love
+    zip
+    unzip
+    p7zip
   ];
 
   systemd.targets.multi-user.wants = ["warp-svc.service"];
@@ -186,8 +190,10 @@
   # };
 
   # Enable hyprland
+  programs.steam.enable = true;
   programs.hyprland = {
     enable = true;
     package = inputs.hyprland.packages."${pkgs.system}".hyprland;
+    portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
   };
 }
