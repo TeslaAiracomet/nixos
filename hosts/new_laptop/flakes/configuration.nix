@@ -21,22 +21,34 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
+  # networking.proxy.default = "http://user:password@proxy::w
+  # port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Enable networking
   networking = {
-    networkmanager.enable = true;
-    hostName = "nixos";
-#    useDHCP = false;
-#    interfaces.wlp195s0 = {
-#      useDHCP = true;
+    firewall.enable = true;
+    #wireless.iwd.enable = true;
+
+       networkmanager = {
+         enable = true; 
+         dns = "default";
+         wifi = {
+           powersave = false;
+           backend = "iwd";
+         };
+       };
+
+    hostName = "laptop";
+    #useDHCP = false;
+    #interfaces.wlp195s0 = {
+    #  useDHCP = true;
 #      ipv4.addresses = [ {
 #        address = "192.168.1.69";
 #        prefixLength = 24;
-#      } ];
-#    };
-#    nameservers = ["1.1.1.1" "1.0.0.1"];
+     # } ];
+    #    };
+    nameservers = ["1.1.1.1" "1.0.0.1"];
 #    dhcpcd.extraConfig = "nohook resolv.conf";
   };
 
@@ -137,6 +149,9 @@
     zip
     unzip
     p7zip
+    obsidian
+    nwg-displays
+    blueman
   ];
 
   systemd.targets.multi-user.wants = ["warp-svc.service"];
@@ -193,6 +208,7 @@
   programs.steam.enable = true;
   programs.hyprland = {
     enable = true;
+    xwayland.enable = true;
     package = inputs.hyprland.packages."${pkgs.system}".hyprland;
     portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
   };

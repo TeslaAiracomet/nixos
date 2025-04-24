@@ -7,7 +7,7 @@
   networking.wireguard.enable = true;
   networking.wireguard.interfaces = {
     wg0 = {
-      ips = [ "10.101.10.2/32" ];
+      ips = [ "10.101.10.2/24" ];
       listenPort = 51820;
       privateKeyFile = "/etc/keys/wireguard-private";
       peers = [{

@@ -223,7 +223,7 @@ in
 
       monitor = [
         "eDP-1,preferred,auto,1.5"
-        ",preferred,auto,1"
+        ",preferred,auto,1,mirror,eDP-1,bitdepth,8"
       ];
 
       general = {
@@ -249,9 +249,9 @@ in
 
       decoration = {
         rounding = 7;
-        active_opacity = 0.9;
-        inactive_opacity = 0.8;
-        fullscreen_opacity = 0.9;
+        active_opacity = 1;
+        inactive_opacity = 0.95;
+        fullscreen_opacity = 1;
 
         blur = {
           enabled = true;
@@ -338,11 +338,6 @@ in
         "$mod SHIFT, up, movewindow, u"
         "$mod SHIFT, down, movewindow, d"
 
-        "$mod ALT, left, resizeactive, 10 0"
-        "$mod ALT, right, resizeactive, -10 0"
-        "$mod ALT, up, resizeactive, 0 -10"
-        "$mod ALT, down, resizeactive, 0 10"
-
         # Switch workspaces with mainMod + [0-9]
         "$mod, 1, workspace, 1"
         "$mod, 2, workspace, 2"
@@ -392,6 +387,10 @@ in
         ",XF86AudioRaiseVolume, exec, pamixer -i 10"
         ",XF86MonBrightnessDown, exec, brightnessctl s 1%-"
         ",XF86MonBrightnessUp, exec, brightnessctl s +1%"
+        "$mod ALT, left, resizeactive, 10 0"
+        "$mod ALT, right, resizeactive, -10 0"
+        "$mod ALT, up, resizeactive, 0 -10"
+        "$mod ALT, down, resizeactive, 0 10"
       ];
 
       bindm = [
@@ -400,7 +399,6 @@ in
       ];
 
       env = [
-        "NIXOS_OZONE_WL_1"
         "QT_WAYLAND_DISABLE_WINDOWDECORATION,1"
         "QT_QPA_PLATFORM,wayland"
         "SDL_VIDEODRIVER,wayland"
@@ -413,7 +411,7 @@ in
       ];
 
       exec-once = [
-        "swww img ~/Pictures/wp.jpg"
+        "swww-daemon & swww img home/tesla/Pictures/wp.jpg"
         "iio-hyprland --monitor=eDP-1"
         "waybar"
         "hypridle"
